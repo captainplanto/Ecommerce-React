@@ -1,9 +1,9 @@
 import * as React from "react";
-import Dialog, { DialogProps } from "@mui/material/Dialog";
-import { FC, ReactNode } from "react";
+import Dialog from "@mui/material/Dialog";
+import { FC} from "react";
 import { SimpleDialogProps } from "../../type";
 import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
-import { CLOSE_CART, OPEN_CART } from "../../redux/features/cart";
+import { CLOSE_CART} from "../../redux/features/cart";
 import styled from "styled-components";
 
 const BackDropDialog: FC<SimpleDialogProps> = ({
