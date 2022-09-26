@@ -1,15 +1,11 @@
 import * as React from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-//import iconHamburger from "../../assets/shared/tablet/icon-hamburger.svg";
 import { ReactNode, FC } from "react";
-import { width } from "@mui/system";
-//import CartBadgeComponent from "./CartBadge.component";
 type Anchor = "left" | "right";
 
 interface IDrawer {
   children: ReactNode;
   style?: object;
- 
 }
 
 const DrawerComponent: FC<IDrawer> = ({ children, style, ...props }) => {
@@ -31,25 +27,22 @@ const DrawerComponent: FC<IDrawer> = ({ children, style, ...props }) => {
     };
 
   return (
-      <React.Fragment key={"left"}  >
-        <img
-          src={"/assets/shared/tablet/icon-hamburger.svg"}
-          alt="Hamburger"
-          onClick={toggleDrawer("left", true)}
-        />
+    <React.Fragment key={"left"}>
+      <img
+        src={"/assets/shared/tablet/icon-hamburger.svg"}
+        alt="Hamburger"
+        onClick={toggleDrawer("left", true)}
+      />
 
-
-        <SwipeableDrawer
-          anchor={"left"}
-          open={state}
-          onClose={toggleDrawer("left", false)}
-        
-          onOpen={toggleDrawer("left", true)}
-        >
-          {children}
-        </SwipeableDrawer>
-      </React.Fragment>
-    
+      <SwipeableDrawer
+        anchor={"left"}
+        open={state}
+        onClose={toggleDrawer("left", false)}
+        onOpen={toggleDrawer("left", true)}
+      >
+        {children}
+      </SwipeableDrawer>
+    </React.Fragment>
   );
 };
 

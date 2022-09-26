@@ -1,95 +1,88 @@
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../redux/stores/hooks";
-import {
-  REMOVE_FROM_CART,
-  RESET_CART_PAGE,
-  OPEN_CART,
-  CLOSE_CART,
-} from "../redux/features/cart";
+import { RESET_CART_PAGE, OPEN_CART, CLOSE_CART } from "../redux/features/cart";
 import ButtonComponent from "../components/common/button.component";
-import { URL } from "../const/constant";
-
 import { Link } from "react-router-dom";
-import { ICart } from "../type";
-import { ICartAndCheckout } from "../type";
+
 import BackDropDialog from "../components/common/BackDrop.component";
 import CounterComponent from "../components/common/Counter.component";
-import { FC, useCallback } from "react";
-//{ totalPrice }
-const ShoppingCart: FC<ICartAndCheckout> = () => {
+
+const ShoppingCart = () => {
   const dispatch = useAppDispatch();
   const openModal = useAppSelector((state) => state.cart);
   const cartQty = useAppSelector((state) => state.cart);
-  const cartRender = useCallback(() => {
-    return (
-      <BackDropDialog
-        open={openModal.open}
-        style={{ top: "-12rem", right: window.innerWidth > 480 ? "-55vw" : "" }}
-        onClose={() => dispatch(OPEN_CART())}
-      >
-        {cartQty.cartItem.length > 0 ? (
-          <Container>
-            <section>
-              <div className="cart-length">
-                <h1>Cart({cartQty.cartItem.length})</h1>
-                <button
-                  onClick={() => dispatch(RESET_CART_PAGE())}
-                  className="cart-remove-item-btn"
-                >
-                  REMOVE ALL
-                </button>
-              </div>
+  const { totalAmount } = useAppSelector((state) => state.cart);
+  return (
+    <BackDropDialog
+      open={openModal.open}
+      style={{ top: "-12rem", right: window.innerWidth > 480 ? "-55vw" : "" }}
+      onClose={() => dispatch(OPEN_CART())}
+    >
+      {cartQty.cartItem.length > 0 ? (
+        <Container>
+          <section>
+            <div className="cart-length">
+              <h1>Cart({cartQty.cartItem.length})</h1>
+              <button
+                onClick={() => dispatch(RESET_CART_PAGE())}
+                className="cart-remove-item-btn"
+              >
+                REMOVE ALL
+              </button>
+            </div>
 
-              {cartQty.cartItem &&
-                cartQty.cartItem.length > 0 &&
-                cartQty.cartItem.map(
-                  ({ id, name, price, image, quantity }, index) => (
+            {cartQty.cartItem && cartQty.cartItem.length > 0
+              ? cartQty.cartItem.map(
+                  ({ id, name, price, unit, image }, index) => (
                     <Main key={id}>
                       <CounterComponent
-                        cartCount={0}
+                        unit={unit}
                         id={id}
                         name={name}
                         price={price}
-                        image={image.desktop}
-                        showCart={true}                     />
+                        image={image}
+                        showCart={true}
+                      />
                     </Main>
                   )
-                )}
+                )
+              : ""}
 
-              <Link to={"/checkout"}>
-                <ButtonComponent
-                  style={{
-                    width: "100%",
-                    justifyContent: "center",
-                    marginTop: "2rem",
-                  }}
-                  onClick={() => dispatch(CLOSE_CART())}
-                >
-                  CHECKOUT
+            <div className="totalqty-checkout">
+              <h1>Total: </h1>
+              <p>€ {totalAmount}</p>
+            </div>
+            <Link to={"/checkout"}>
+              <ButtonComponent
+                style={{
+                  width: "100%",
+                  justifyContent: "center",
+                  marginTop: "2rem",
+                }}
+                onClick={() => dispatch(CLOSE_CART())}
+              >
+                CHECKOUT
+              </ButtonComponent>
+            </Link>
+          </section>
+        </Container>
+      ) : (
+        <Container>
+          <section>
+            <NoCart>
+              <h1>Your Cart is Empty </h1>
+              <p>Start shopping to add item(s) into your cart </p>
+              <Link to={"/"}>
+                <ButtonComponent onClick={() => dispatch(CLOSE_CART())}>
+                  Continue Shopping
                 </ButtonComponent>
               </Link>
-            </section>
-          </Container>
-        ) : (
-          <Container>
-            <section>
-              <NoCart>
-                <h1>Your Cart is Empty </h1>
-                <p>Start shopping to add item(s) into your cart </p>
-                <Link to={"/"}>
-                  <ButtonComponent onClick={() => dispatch(CLOSE_CART())}>
-                    Continue Shopping
-                  </ButtonComponent>
-                </Link>
-              </NoCart>
-            </section>
-          </Container>
-        )}
-      </BackDropDialog>
-    );
-  }, [cartQty.cartItem, dispatch, openModal.open]);
-
-  return <>({cartRender()})</>;
+            </NoCart>
+          </section>
+        </Container>
+      )}
+    </BackDropDialog>
+  );
 };
 
 export default ShoppingCart;
@@ -166,44 +159,3 @@ const NoCart = styled.div`
     margin: 1rem 0 1rem 0;
   }
 `;
-
-/*
-
-
- <div className="counter-styling">
-                        <h3 onClick={() => dispatch(DECREASE_QTY(id))}>-</h3>
-                        <h5> {quantity}</h5>
-
-                        <h3 onClick={()=> dispatch(INCREASE_QTY(quantity))}>+</h3>
-                      </div>
-
-
-
-
-  <div className="counter-styling">
-                      <h3 onClick={() => dispatch(DECREASE_QTY())}>-</h3>
-                      <h5> {cartQty.count}</h5>
-                      <h3 onClick={() => dispatch(INCREASE_QTY(id))}>+</h3>
-                    </div>
-
-
-
-
- <div className="image-name-price">
-                        <img src={URL + image.desktop} alt="product-jpg" />
-                        <div>
-                          <h1>{name.slice(0, 4)}</h1>
-                          <h2>{price * cartCount}</h2>
-                        </div>
-                      </div>
-
-                      <CounterComponent
-                        id={id}
-                        //   cartCount={cartCount}
-                        //  stepDown={stepDown}
-                        //  stepUp={stepUp}
-                      />
-
-
-
-*/

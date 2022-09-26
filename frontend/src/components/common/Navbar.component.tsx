@@ -7,15 +7,14 @@ import { FC, ReactChild, ReactNode } from "react";
 import CartBadgeComponent from "./CartBadge.component";
 import { useAppSelector, useAppDispatch } from "../../redux/stores/hooks";
 import CartPage from "../../pages/cart";
-//import { OPEN_CART } from "../../redux/features/cart";
 import { ICartAndCheckout } from "../../type";
 import { OPEN_CART } from "../../redux/features/cart";
 
-const NavItems: { name: string; path: string; id:number }[] = [
-  { name: "HOME", path: "/", id:1 },
-  { name: "HEADPHONES", path: "/headphones", id:2 },
-  { name: "SPEAKERS", path: "/speakers", id:3 },
-  { name: "EARPHONES", path: "/earphones", id:4 },
+const NavItems: { name: string; path: string; id: number }[] = [
+  { name: "HOME", path: "/", id: 1 },
+  { name: "HEADPHONES", path: "/headphones", id: 2 },
+  { name: "SPEAKERS", path: "/speakers", id: 3 },
+  { name: "EARPHONES", path: "/earphones", id: 4 },
 ];
 
 interface INav extends ICartAndCheckout {
@@ -36,11 +35,10 @@ const Navbar: FC<INav> = ({
   marginBottom,
   ...props
 }) => {
- const openModal = useAppSelector((state)=>state.cart)
-const dispatch = useAppDispatch();
+  const openModal = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
 
-
-  const navBar = NavItems.map(({ name, path, id } ) => (
+  const navBar = NavItems.map(({ name, path, id }) => (
     <Link to={path} key={id}>
       <li> {name}</li>
     </Link>
@@ -59,7 +57,7 @@ const dispatch = useAppDispatch();
             <img src={"/assets/shared/desktop/logo.svg"} alt="website logo" />
             <ul>{navBar}</ul>
 
-            <div onClick={()=>dispatch(OPEN_CART())}>
+            <div onClick={() => dispatch(OPEN_CART())}>
               <CartBadgeComponent>
                 <img
                   src={"/assets/shared/desktop/icon-cart.svg"}
@@ -81,13 +79,15 @@ const dispatch = useAppDispatch();
         <Main>
           <NavList
             style={{ backgroundColor: color, marginBottom, ...style }}
-            className={className} 
+            className={className}
           >
-            <DrawerComponent  >
-              <ul className="navitem-collapse">{navBar}</ul>
+            <DrawerComponent>
+              <ul className="navitem-collapse" style={{ margin: "2rem" }}>
+                {navBar}
+              </ul>
             </DrawerComponent>
             <img src={"/assets/shared/desktop/logo.svg"} alt="website logo" />
-            <div onClick={()=>dispatch(OPEN_CART())}>
+            <div onClick={() => dispatch(OPEN_CART())}>
               <CartBadgeComponent>
                 <img
                   src={"/assets/shared/desktop/icon-cart.svg"}
@@ -99,10 +99,10 @@ const dispatch = useAppDispatch();
           {children}
         </Main>
       )}
-     {openModal.open ? <CartPage/>: ''}
+      {openModal.open ? <CartPage /> : ""}
     </>
   );
-};  
+};
 
 export default Navbar;
 const Main = styled.div`

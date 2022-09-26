@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import styled from "styled-components";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Homepage from "../pages/home";
@@ -9,45 +9,35 @@ import ShoppingCart from "./cart";
 import Productrender from "../pages/product";
 import Checkout from "./checkout";
 import { ICartAndCheckout } from "../type";
-import { useAppSelector } from "../redux/stores/hooks";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useAppDispatch } from "../redux/stores/hooks";
+import { SET_CART_DB } from "../redux/features/cart";
 const App: FC<ICartAndCheckout> = () => {
-  const cartQty = useAppSelector((state) => state.cart);
- /* const [totalPrice, setTotalPrice] = useState<number>();
-  const [totalShipping, setTotalShipping] = useState<number>();
-  const [totalVAT, setTotalVAT] = useState<number>();
-  const [grandTotal, setGrandTotal] = useState<number>();
+  const dispatch = useAppDispatch();
+    const getItemInDb = window.localStorage.getItem("userCart");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const itemInDb = getItemInDb ? JSON.parse(getItemInDb) : [];
+    //dispatch(SET_CART_DB(itemInDb));
+useEffect(() => {
+ dispatch(SET_CART_DB(itemInDb))
 
-  useEffect(() => {
-    //the function below calculates the total price at cart.tsx and was used at checkout.tsx as well.
-    const addition = (acc: number, currentValue: { price: number }) => {
-      return acc + currentValue.price * cartQty.count;
-    };
-    setTotalPrice(cartQty.cartItem.reduce(addition, 0));
-      
-    //the function below calculates the shipping price at checkout.tsx the shipping === 2% of the totalPrice of goods.
-    if (totalPrice !== undefined) {
-      const shipping = parseInt(((totalPrice / 100) * 2).toFixed(2));
-      setTotalShipping(shipping);
-    }
-    //the function below calculates the Vat price at checkout.tsx, the VAT=== 5% of the totalPrice of goods.
-    if (totalPrice !== undefined) {
-      const vat = parseInt(((totalPrice / 100) * 5).toFixed(2));
-      setTotalVAT(vat);
-    }
-    if (
-      totalPrice !== undefined &&
-      totalShipping !== undefined &&
-      totalVAT !== undefined
-    ) {
-      const grandPrice = totalPrice + totalShipping + totalVAT;
-      setGrandTotal(grandPrice);
-    }
-  }, [cartQty.cartItem, cartQty.count, totalPrice, totalShipping, totalVAT]);
-  //const scrollToTop =window.scrollBy(0, 0)
-  */
+}, [dispatch, itemInDb])
+
   return (
     <StyleApp>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <Router>
         <Routes>
           <Route path="/" element={<Homepage />} />
@@ -55,25 +45,8 @@ const App: FC<ICartAndCheckout> = () => {
           <Route path="/earphones" element={<Earphones />} />
           <Route path="/headphones" element={<Headphones />} />
           <Route path="/product/:id" element={<Productrender />} />
-          <Route
-            path="/cart"
-            element={
-              <ShoppingCart
-                           
-              />
-            }
-          />
-          <Route
-            path="/checkout"
-            element={
-              <Checkout
-              //  totalPrice={totalPrice}
-               //// totalShipping={totalShipping}
-               // totalVAT={totalVAT}
-              //  grandTotal={grandTotal}
-              />
-            }
-          />
+          <Route path="/cart" element={<ShoppingCart />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </Router>
       <button onClick={() => window.scrollTo(0, 0)}>Anthony</button>

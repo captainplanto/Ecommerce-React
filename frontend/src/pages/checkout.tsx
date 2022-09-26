@@ -16,7 +16,7 @@ import {
   CHANGE_ZIPCODE,
 } from "../redux/features/checkout";
 import ButtonComponent from "../components/common/button.component";
-import { URL } from "../const/constant";
+
 import { ICart } from "../type";
 import { ICartAndCheckout } from "../type";
 import ThankYouPage from "./thankyou";
@@ -144,26 +144,21 @@ const CheckOut: FC<ICartAndCheckout> = ({
         <div className="checkout-summary">
           <h1 className="h1">SUMMARY</h1>
           <div>
-            {cartQty.cartItem.map(({ id, name, price, image }: ICart) => (
+            {cartQty.cartItem.map(({ id, name, price, unit, image }: ICart) => (
               <>
                 <CounterComponent
-                  cartCount={0}
+                  unit={unit}
                   id={id}
                   name={name}
                   price={price}
-                  image={image.desktop}
+                  image={image}
                   showCart={false}
                   showCheckoutContent={true}
                 />
               </>
             ))}
 
-            <CounterComponent
-              showCart={false}
-              showCheckoutContent={false}
-              cartCount={0}
-              id={0}
-            />
+          
             {!validate ? (
               <ButtonComponent
                 onClick={() => {

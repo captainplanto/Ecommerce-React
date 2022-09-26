@@ -11,6 +11,7 @@ export interface IData {
   description: string;
   name: string;
   price: number;
+  unit: number;
   new: boolean;
   includes: { quantity: number; item: string }[];
   gallery: {
@@ -51,15 +52,22 @@ export interface ICheckoutForm {
   name?: string;
   onSubmit?: () => void;
 }
-
+interface IImage {
+  desktop: string;
+  mobile?: string;
+  tablet?: string;
+}
 //This type below  has been used for Checkout.tsx  page file and the cartPage file. You can navigate to the link via the pages folderinside src folder;
 
 export interface ICart {
   id: number;
   name: string;
   price: number;
-  image: { desktop: string };
-  quantity: number;
+  unit: number;
+  image: IImage;
+  showCart?: boolean;
+  showCheckout?: boolean;
+  showCheckoutContent?: boolean;
 }
 
 //This type below  was used because we had to calculate the totalPrice which was used on two different pages, instead of copying codes, the calculation was done in App.tsx and pass down as props to cart.tsx and checkout.tsx.
@@ -71,39 +79,22 @@ export interface ICartAndCheckout {
   grandTotal?: number;
   openModal?: boolean;
   setOpenModal?: (arg: boolean) => void;
-     stepUp?:()=>void;
-    stepDown?:()=>void;
-    cartCount?:number;
+  stepUp?: () => void;
+  stepDown?: () => void;
+  cartCount?: number;
 }
 
 //This type below  was used in CartSLICE, It's the types that holds the carSlice state. navigate to cart.tsx slice in redux store to see how it's used.
-export interface ICartDetails extends SimpleDialogProps {
-  cartItem: {
-    id: number;
-    image: { desktop: string };
-    price: number;
-    name: string;
-    quantity: number;
-  }[];
+export interface ICartDetails {
+  cartItem: ICart[];
   thankYou: boolean;
-  count: number;
-  newCart: {
-    id: number;
-    image: { desktop: string };
-    price: number;
-    name: string;
-    quantity: number;
-  }[];
+  totalCount: number;
+  subAmount: number;
+  totalAmount:number;
+  tax:number;
+  shipping:number;
+  open: boolean;
   deletedItem: [];
-
-
-
-
-
-
-
-
-
 }
 
 // Interface for MarginBottom settings for components rendered in collection components

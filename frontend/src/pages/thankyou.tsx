@@ -21,6 +21,7 @@ const ThankYouPage: FC<IThankYou> = ({
   setOpenModal,
 }) => {
   const cartQty = useAppSelector((state) => state.cart);
+   const { totalAmount } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
   const handler = () => {
     setOpenModal(!openModal);
@@ -61,7 +62,7 @@ const ThankYouPage: FC<IThankYou> = ({
                 <div>
                   {cartQty.cartItem
                     .slice(0, 1)
-                    .map(({ id, name, price, image }: ICart) => (
+                    .map(({ id, name, price, image, unit }: ICart) => (
                       <summary key={id}>
                         <div className="image-name-price">
                           <div className="Image-cartqty">
@@ -71,7 +72,7 @@ const ThankYouPage: FC<IThankYou> = ({
                               <h2>{price}</h2>
                             </div>
                           </div>
-                          <h2>x{cartQty.count}</h2>
+                          <h2>x{unit}</h2>
                         </div>
                         {cartQty.cartItem.length - 1 === 0 ? (
                           ""
@@ -102,7 +103,7 @@ const ThankYouPage: FC<IThankYou> = ({
                   }}
                 >
                   <h1>GRAND TOTAL</h1>
-                  <span className="grand-total">€{grandTotal}</span>
+                  <span className="grand-total">€{totalAmount}</span>
                 </BackgroundComponent>
               </div>
             </InnerContainer>

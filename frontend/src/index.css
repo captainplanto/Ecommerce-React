@@ -6,9 +6,15 @@ body {
   box-sizing: border-box;
   font-family: "Manrope", sans-serif;
   font-size: 14px;
-
 }
-
+li {
+  color: var(--primary-hover-black);
+}
+ul, a {
+  list-style: none;
+  text-decoration: none;
+  color: var(--white-text-color);
+}
 :root {
   --primary-Orange: rgb(216, 125, 74);
   --primary-Orange-hover: rgb(251, 175, 133);
@@ -32,9 +38,12 @@ body {
   body {
     font-size: 12px;
   }
+  .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation16.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
+    width: 65vw !important;
+  }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 500px) {
   *,
   html,
   body {

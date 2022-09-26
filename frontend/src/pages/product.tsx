@@ -8,7 +8,15 @@ import CategoryComponent from "../components/common/Category.component";
 import AudioGearComponent from "../components/common/AudioGear.component";
 import FooterComponent from "../components/common/Footer.component";
 
-import { ADD_TO_CART } from "../redux/features/cart";
+import {
+  ADD_TO_CART,
+  CALCULATE_TAX,
+  DECREASE_QTY,
+  GET_CART_COUNT,
+  GET_SUBTOTAL,
+  GET_TOTAL_AMOUNT,
+  INCREASE_QTY,
+} from "../redux/features/cart";
 import { useAppDispatch, useAppSelector } from "../redux/stores/hooks";
 
 import { IData } from "../type";
@@ -19,7 +27,7 @@ const Productrender = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const [product, setProduct] = useState<IData>();
-  const [count, setCount] = useState<number>(1);
+  const { totalCount } = useAppSelector((state) => state.cart);
 
   useEffect(() => {
     if (id && data) {
@@ -28,159 +36,172 @@ const Productrender = () => {
     }
   }, [id, data]);
 
-  //The Increase && Decrease Function Increases && Decreases the counts on the products only....
-  const increaseCount = () => {
-    if (id && data) {
-      const increase = data.find((item) => item.id === parseInt(id));
-      if (increase) {
-        setCount(count + 1);
-      }
-    }
-  };
-
-  const decreaseCount = () => {
-    if (id && data) {
-      const decrease = data.find((item) => item.id === parseInt(id));
-      if (decrease && count > 1) {
-        setCount(count - 1);
-      }
-    }
-  };
   if (loading || product === undefined) {
     return <CircularProgress />;
   } else {
-    const {image, id, name, description, price, includes, gallery, others, features} = product;
+    const {
+      image,
+      id,
+      name,
+      description,
+      price,
+      unit,
+      includes,
+      gallery,
+      others,
+      features,
+    }: IData = product;
+
     return (
-      <>
-        <HeadPhoneContainer key={id}>
-          <Navbar style={{ backgroundColor: "black" }} />
-          <WidthStyle>
-            <div className="category-container" >
-              <div >
-                <div className="category">
+      <HeadPhoneContainer>
+        <Navbar style={{ backgroundColor: "black" }} />
+        <WidthStyle>
+          <div className="category-container">
+            <div key={id}>
+              <div className="category">
+                <img
+                  src={
+                    window.innerWidth > 820
+                      ? image.desktop
+                      : window.innerWidth > 480
+                      ? URL + image.tablet
+                      : image.mobile
+                  }
+                  alt="category"
+                />
+                <div className="name-description">
+                  <div className="h1-div">
+                    <h1 className="product-name">{name.toUpperCase()}</h1>
+                  </div>
+                  <p>{description}</p>
+                  <h2>$ {price}</h2>
+                  <div className="counter-cart">
+                    <div className="counter-styling">
+                      <h3
+                        onClick={() => {
+                          dispatch(DECREASE_QTY(id));
+                          dispatch(GET_CART_COUNT());
+                          dispatch(GET_TOTAL_AMOUNT());
+                          dispatch(GET_SUBTOTAL());
+                          dispatch(CALCULATE_TAX());
+                        }}
+                      >
+                        -
+                      </h3>
+                      <h5>{totalCount}</h5>
+                      <h3
+                        onClick={() => {
+                          dispatch(INCREASE_QTY(id));
+                          dispatch(GET_CART_COUNT());
+                          dispatch(GET_TOTAL_AMOUNT());
+                          dispatch(GET_SUBTOTAL());
+                          dispatch(CALCULATE_TAX());
+                        }}
+                      >
+                        +
+                      </h3>
+                    </div>
+                    <ButtonComponent
+                      onClick={() =>
+                        dispatch(ADD_TO_CART({ id, image, price, unit }))
+                      }
+                    >
+                      ADD TO CART
+                    </ButtonComponent>
+                  </div>
+                </div>
+              </div>
+              <div className="product-features">
+                <div className="feature">
+                  <h1>FEATURES</h1>
+                  <p>{features}</p>
+                </div>
+                <div className="mobile-display">
+                  <h1>IN THE BOX</h1>
+                  <div>
+                    {includes.map(({ quantity, item }, index) => (
+                      <div>
+                        <li key={item}>
+                          <span>{quantity}x</span> {item}
+                        </li>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/*   Grid images for each products is being rendered here; the styled component for this as well is at the end of this page   */}
+
+              <GridContainer>
+                <div className="div-1">
                   <img
                     src={
                       window.innerWidth > 820
-                        ? URL + image.desktop
+                        ? URL + gallery.third.desktop
                         : window.innerWidth > 480
-                        ? URL + image.tablet
-                        : URL + image.mobile
+                        ? URL + gallery.third.tablet
+                        : gallery.third.mobile
                     }
-                    alt="category"
+                    alt="grid"
                   />
-                  <div className="name-description">
-                    <div className="h1-div">
-                      <h1 className="product-name">{name.toUpperCase()}</h1>
-                    </div>
-                    <p>{description}</p>
-                    <h2>$ {price}</h2>
-                    <div className="counter-cart">
-                      <div className="counter-styling">
-                        <h3 onClick={decreaseCount}>-</h3>
-                        <h5>{count}</h5>
-                        <h3 onClick={increaseCount}>+</h3>
-                      </div>
-                      <ButtonComponent
-                        onClick={() =>
-                          dispatch(ADD_TO_CART({ id, price, image, name }))
+                </div>
+                <div className="div-2">
+                  <img
+                    src={
+                      window.innerWidth > 820
+                        ? URL + gallery.first.desktop
+                        : window.innerWidth > 480
+                        ? URL + gallery.first.tablet
+                        : gallery.first.mobile
+                    }
+                    alt="grid"
+                  />
+                </div>
+                <div className="div-3">
+                  <img
+                    src={
+                      window.innerWidth > 820
+                        ? URL + gallery.second.desktop
+                        : window.innerWidth > 480
+                        ? URL + gallery.second.tablet
+                        : gallery.second.mobile
+                    }
+                    alt="grid"
+                  />
+                </div>
+              </GridContainer>
+
+              <Others>
+                <h1>YOU MAY ALSO LIKE</h1>
+                <OthersContainer>
+                  {others.map(({ name, image, slug }) => (
+                    <div>
+                      <img
+                        src={
+                          window.innerWidth > 820
+                            ? URL + image.desktop
+                            : window.innerWidth > 480
+                            ? URL + image.tablet
+                            : image.mobile
                         }
-                      >
-                        ADD TO CART
-                      </ButtonComponent>
+                        alt="others-images"
+                      />
+                      <p>{name}</p>
+                      <Link to={`/product/${slug}/${id}`}>
+                        <ButtonComponent>SEE PRODUCT</ButtonComponent>
+                      </Link>
                     </div>
-                  </div>
-                </div>
-                <div className="product-features">
-                  <div className="feature">
-                    <h1>FEATURES</h1>
-
-                    <p>{features}</p>
-                  </div>
-                  <div className="mobile-display">
-                    <h1>IN THE BOX</h1>
-                    <ul>
-                      {includes.map(({ quantity, item }, index) => (
-                        <li key={index}>
-                          <span>{quantity}x</span> {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {/*   Grid images for each products is being rendered here; the styled component for this as well is at the end of this page   */}
-
-                <GridContainer>
-                  <div className="div-1">
-                    <img
-                      src={
-                        window.innerWidth > 820
-                          ? URL + gallery.third.desktop
-                          : window.innerWidth > 480
-                          ? URL + gallery.third.tablet
-                          : URL + gallery.third.mobile
-                      }
-                      alt="grid"
-                    />
-                  </div>
-                  <div className="div-2">
-                    <img
-                      src={
-                        window.innerWidth > 820
-                          ? URL + gallery.first.desktop
-                          : window.innerWidth > 480
-                          ? URL + gallery.first.tablet
-                          : URL + gallery.first.mobile
-                      }
-                      alt="grid"
-                    />
-                  </div>
-                  <div className="div-3">
-                    <img
-                      src={
-                        window.innerWidth > 820
-                          ? URL + gallery.second.desktop
-                          : window.innerWidth > 480
-                          ? URL + gallery.second.tablet
-                          : URL + gallery.second.mobile
-                      }
-                      alt="grid"
-                    />
-                  </div>
-                </GridContainer>
-
-                <Others>
-                  <h1>YOU MAY ALSO LIKE</h1>
-                  <OthersContainer>
-                    {others.map(({ name, image, id, slug }) => (
-                      <div>
-                        <img
-                          src={
-                            window.innerWidth > 820
-                              ? URL + image.desktop
-                              : window.innerWidth > 480
-                              ? URL + image.tablet
-                              : URL + image.mobile
-                          }
-                          alt="others-images"
-                        />
-                        <p>{name}</p>
-                        <Link to={"/product/3"}>
-                          <ButtonComponent>SEE PRODUCT</ButtonComponent>
-                        </Link>
-                      </div>
-                    ))}
-                  </OthersContainer>
-                </Others>
-              </div>
+                  ))}
+                </OthersContainer>
+              </Others>
             </div>
+          </div>
 
-            <CategoryComponent />
-            <AudioGearComponent />
-          </WidthStyle>
-          <FooterComponent />
-        </HeadPhoneContainer>
-      </>
+          <CategoryComponent />
+          <AudioGearComponent />
+        </WidthStyle>
+        <FooterComponent />
+      </HeadPhoneContainer>
     );
   }
 };
