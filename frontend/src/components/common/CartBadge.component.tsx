@@ -14,6 +14,7 @@ const CustomizedBadges: React.FC<ICart> = ({ children }) => {
     <IconButton aria-label="cart">
       <StyledBadge
         badgeContent={cartQty.cartItem.length > 0 ? cartQty.cartItem.length : "0"}
+   
         color="error"
       >
         {children}

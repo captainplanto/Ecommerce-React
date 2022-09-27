@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
-import { URL } from "../../const/constant";
+import { useAppDispatch } from "../../redux/stores/hooks";
+
 import {
   CALCULATE_TAX,
   DECREASE_QTY,
@@ -25,9 +25,7 @@ const CounterComponent: FC<ICart> = ({
   showCheckoutContent,
   ...props
 }) => {
-  const { subAmount, totalCount, shipping, totalAmount, tax } = useAppSelector(
-    (state) => state.cart
-  );
+ 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -100,7 +98,7 @@ const CounterComponent: FC<ICart> = ({
           <summary>
             <div className="image-name-price">
               <div className="Image-cartqty">
-                <img src={URL + image.desktop} alt="product-jpg" />
+                <img src={ image.desktop} alt="product-jpg" />
                 <div>
                   <h1>{name}</h1>
                   <h2>{price * unit}</h2>
@@ -108,27 +106,7 @@ const CounterComponent: FC<ICart> = ({
               </div>
               <h2>x{unit}</h2>
             </div>
-            <div className="checkout-pricing-details">
-              <div style={pricingCheckout}>
-                <p>TOTAL </p>
-                <span>€ {totalAmount} </span>
-              </div>
-
-              <div style={pricingCheckout}>
-                <p>SHIPPING </p>
-                <span>€ {shipping}</span>
-              </div>
-
-              <div style={pricingCheckout}>
-                <p>VAT(INCLUDED) </p>
-                <span>€ {tax}</span>
-              </div>
-
-              <div style={pricingCheckout}>
-                <p>GRAND TOTAL </p>
-                <span className="grand-total">€{totalAmount}</span>
-              </div>
-            </div>
+          
           </summary>
         )}
       </Container>
@@ -158,21 +136,7 @@ const Container = styled.div`
       margin-right: 1rem;
     }
   }
-  .checkout-pricing-details {
-    margin-top: 4rem;
-
-    p,
-    span {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-    span {
-      font-weight: 800;
-    }
-    .grand-total {
-      color: var(--primary-Orange);
-    }
-  }
+  
 `;
 
 const Counter = styled.div`
@@ -188,9 +152,3 @@ const Counter = styled.div`
     align-items: center;
   }
 `;
-const pricingCheckout = {
-  display: "flex",
-  margin: "0 auto",
-  justifyContent: "space-between",
-  alignItems: "center",
-};

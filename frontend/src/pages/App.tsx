@@ -13,16 +13,26 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAppDispatch } from "../redux/stores/hooks";
 import { SET_CART_DB } from "../redux/features/cart";
+import {
+  CALCULATE_TAX,
+  GET_CART_COUNT,
+  GET_SHIPPING,
+  GET_SUBTOTAL,
+  GET_TOTAL_AMOUNT,
+} from "../redux/features/cart";
 const App: FC<ICartAndCheckout> = () => {
   const dispatch = useAppDispatch();
-    const getItemInDb = window.localStorage.getItem("userCart");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const itemInDb = getItemInDb ? JSON.parse(getItemInDb) : [];
-    //dispatch(SET_CART_DB(itemInDb));
-useEffect(() => {
- dispatch(SET_CART_DB(itemInDb))
-
-}, [dispatch, itemInDb])
+  const getItemInDb = window.localStorage.getItem("userCart");
+  useEffect(() => {
+     const itemInDb = getItemInDb ? JSON.parse(getItemInDb) : [];
+    
+     dispatch(SET_CART_DB(itemInDb));
+    dispatch(GET_CART_COUNT());
+    dispatch(GET_TOTAL_AMOUNT());
+    dispatch(GET_SHIPPING());
+    dispatch(GET_SUBTOTAL());
+    dispatch(CALCULATE_TAX());
+  }, [dispatch, getItemInDb]);
 
   return (
     <StyleApp>

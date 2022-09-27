@@ -77,9 +77,12 @@ const Category = styled.div`
   text-align: center;
   justify-content: center;
   .view-category {
+    display: flex;
+    justify-content: center;
     padding-top: 18px;
     img {
       object-fit: contain;
+      margin-left: 4px;
     }
     h4 {
       color: black;

@@ -26,26 +26,29 @@ const ModalThankYouComponent: FC<IBackdrop> = ({
 export default ModalThankYouComponent;
 
 const Backdrop = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height:100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.3);
+  height: 280%;
+  position: absolute;
+  top: -60rem;
+  bottom: 0;
+  display: grid;
+  place-items: center;
+  background-color: rgba(255, 255, 255, 0.2);
+
   backdrop-filter: blur(12px);
   .children {
-    background: var(  --offwhite-text-color);
-    border-radius:5px;
+    background: var(--offwhite-text-color);
+    border-radius: 2rem;
     width: 40%;
-    @media screen and (max-width: 820px) {
-      width: 85%;
+    h6,
+    h2 {
+      color: black;
+    }
+      @media screen and (min-width: 200px) and (max-width: 820px)  {
+      width: 90%;
     }
 
-     @media screen and (max-width: 480px) {
-      width: 100%;
-    }
   }
 `;
+
+

@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { CircularProgress } from "@mui/material";
 import { useFetch } from "../../hooks/useFetch";
 import Collection from "../../components/common/Collection.component";
-import CategoryNavbarComponent from "./CategoryNavbar.component";
+import CategoryNavbarComponent from "../../components/navbars/CategoryNavbar.component";
 
 interface ITitle{
   isEarphone?:boolean;

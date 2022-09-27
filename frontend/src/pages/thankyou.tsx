@@ -5,7 +5,7 @@ import BackgroundComponent from "../components/common/Background.component";
 import ButtonComponent from "../components/common/button.component";
 import { useAppDispatch, useAppSelector } from "../redux/stores/hooks";
 import { ICart } from "../type";
-import { URL } from "../const/constant";
+
 import { Modal } from "@nextui-org/react";
 import { EMPTY_CART_AFTER_PAYMENT } from "../redux/features/cart";
 import ModalThankYouComponent from "../components/common/ModalThankYou.component";
@@ -21,7 +21,7 @@ const ThankYouPage: FC<IThankYou> = ({
   setOpenModal,
 }) => {
   const cartQty = useAppSelector((state) => state.cart);
-   const { totalAmount } = useAppSelector((state) => state.cart);
+  const { totalAmount, shipping, tax } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
   const handler = () => {
     setOpenModal(!openModal);
@@ -37,7 +37,7 @@ const ThankYouPage: FC<IThankYou> = ({
             ? "90vw"
             : ""
         }
-        // blur
+        // blur={true}
         aria-labelledby="modal-title"
         open={openModal}
         onClose={handler}
@@ -49,16 +49,7 @@ const ThankYouPage: FC<IThankYou> = ({
               <h6>You will receive an email confirmation shortly</h6>
             </div>
             <InnerContainer>
-              <BackgroundComponent
-                style={{
-                  width:
-                    window.innerWidth > 821
-                      ? "45vw"
-                      : window.innerWidth > 480
-                      ? "30vw"
-                      : "55vw",
-                }}
-              >
+              <BackgroundComponent style={{ width: "100%" }}>
                 <div>
                   {cartQty.cartItem
                     .slice(0, 1)
@@ -66,7 +57,7 @@ const ThankYouPage: FC<IThankYou> = ({
                       <summary key={id}>
                         <div className="image-name-price">
                           <div className="Image-cartqty">
-                            <img src={URL + image.desktop} alt="product-jpg" />
+                            <img src={image.desktop} alt="product-jpg" />
                             <div>
                               <h1>{name}</h1>
                               <h2>{price}</h2>
@@ -77,7 +68,7 @@ const ThankYouPage: FC<IThankYou> = ({
                         {cartQty.cartItem.length - 1 === 0 ? (
                           ""
                         ) : (
-                          <h5>
+                          <h5 style={{color:'black'}}>
                             and {cartQty.cartItem.length - 1} other{" "}
                             {cartQty.cartItem.length - 1 > 1 ? "items" : "item"}
                           </h5>
@@ -92,26 +83,23 @@ const ThankYouPage: FC<IThankYou> = ({
                     background: "black",
                     color: "white",
                     padding: "3rem",
+                    width: "100%",
                     borderTopLeftRadius: 0,
                     borderBottomLeftRadius: 0,
-                    width:
-                      window.innerWidth > 821
-                        ? "12vw"
-                        : window.innerWidth > 480
-                        ? "35vw"
-                        : "55vw",
                   }}
                 >
                   <h1>GRAND TOTAL</h1>
-                  <span className="grand-total">€{totalAmount}</span>
+                  <span className="grand-total">€{Math.round(totalAmount + shipping + tax)}</span>
                 </BackgroundComponent>
               </div>
             </InnerContainer>
             <Link to={"/"}>
               <ButtonComponent
                 style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  margin: "0 auto",
                   width: "100%",
-                  paddingRight: window.innerWidth <= 480 ? "1rem" : "",
                 }}
                 onClick={() => dispatch(EMPTY_CART_AFTER_PAYMENT())}
               >
@@ -127,7 +115,7 @@ const ThankYouPage: FC<IThankYou> = ({
 
 export default ThankYouPage;
 const ThankYouModal = styled(ModalThankYouComponent)`
-
+  width: 100%;
 `;
 const OuterContainer = styled.div`
   margin: 0 auto;
@@ -195,6 +183,8 @@ const OuterContainer = styled.div`
 `;
 
 const InnerContainer = styled.div`
+  width: 100%;
+  justify-content: center;
   display: flex;
   margin: 2rem 0 2rem 0;
 

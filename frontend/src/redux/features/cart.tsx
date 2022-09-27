@@ -131,12 +131,4 @@ export const cart = (state: AppState) => state.cart;
 
 export default cartSlice.reducer;
 
-/*
 
-        const getItemInDb = window.localStorage.getItem("userCart");
-        const itemInDb = getItemInDb ? JSON.parse(getItemInDb) : "";
-        state.cartItem = itemInDb;
-
-
-
-*/

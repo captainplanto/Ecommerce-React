@@ -1,10 +1,6 @@
-import React, { FC } from "react";
-import Navbar from "../../components/common/Navbar.component";
+import { FC } from "react";
 import styled from "styled-components";
-
 import ButtonComponent from "../../components/common/button.component";
-import { CircularProgress, Divider } from "@mui/material";
-import { useFetch } from "../../hooks/useFetch";
 import CategoryComponent from "../../components/common/Category.component";
 import AudioGearComponent from "../../components/common/AudioGear.component";
 import FooterComponent from "../../components/common/Footer.component";
@@ -18,8 +14,6 @@ const Collection: FC<ICollect> = ({ data }) => {
   return (
     <>
       <HeadPhoneContainer>
-  
-
         <div className="category-container">
           {data?.map(
             ({
@@ -41,10 +35,10 @@ const Collection: FC<ICollect> = ({ data }) => {
                   <img
                     src={
                       window.innerWidth > 820
-                        ? URL + image.desktop
+                        ? image.desktop
                         : window.innerWidth > 480
-                        ? URL + image.tablet
-                        : URL + image.mobile
+                        ?  image.tablet
+                        :  image.mobile
                     }
                     alt="category"
                   />
@@ -85,7 +79,7 @@ const HeadPhoneContainer = styled.div`
   .product-name {
     text-align: justify;
   }
- 
+
   .category-container {
     margin-top: 25rem;
   }

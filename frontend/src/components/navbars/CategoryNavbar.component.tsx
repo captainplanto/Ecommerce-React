@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styled from "styled-components";
-import Navbar from "../../components/common/Navbar.component";
+import Navbar from "./Navbar.component";
 
 interface ITitle{
  // isTrue?:boolean;
@@ -15,7 +15,7 @@ const CategoryNavbarComponent:FC<ITitle> = ({isSpeaker, isEarphone, isHeadphone}
   return (
   
     <Heading>
-      <Navbar style={{ paddingBottom: "14rem", background: "black", zIndex: "-1" }}>
+      <Navbar style={{ paddingBottom: "10rem", background: "black", zIndex: "-1" }} >
         <h1 className={window.innerWidth > 820 ? "heading-desktop" : "heading-mobile"} >
          { isHeadphone ? 'HEADPHONES' : isSpeaker ? 'SPEAKER' : isEarphone ? 'EARPHONES' :'' }
         </h1>
@@ -25,8 +25,7 @@ const CategoryNavbarComponent:FC<ITitle> = ({isSpeaker, isEarphone, isHeadphone}
 };
 export default CategoryNavbarComponent;
 const Heading = styled.div`
-  .heading-desktop,
-  heading-mobile {
+  .heading-desktop, .heading-mobile {
     display: flex;
     justify-content: center;
     color: white;
@@ -34,7 +33,5 @@ const Heading = styled.div`
     font-size: 2.5rem;
   }
 
-  .heading-mobile {
-    margin-top: 12rem;
-  }
+ 
 `;

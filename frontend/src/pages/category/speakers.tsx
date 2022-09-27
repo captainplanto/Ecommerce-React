@@ -1,9 +1,9 @@
 import React, { FC } from "react";
-import Navbar from "../../components/common/Navbar.component";
+import Navbar from "../../components/navbars/Navbar.component";
 import { CircularProgress } from "@mui/material";
 import { useFetch } from "../../hooks/useFetch";
 import Collection from "../../components/common/Collection.component";
-import CategoryNavbarComponent from "./CategoryNavbar.component";
+import CategoryNavbarComponent from "../../components/navbars/CategoryNavbar.component";
 
 interface ITitle{
   isSpeaker?:boolean;

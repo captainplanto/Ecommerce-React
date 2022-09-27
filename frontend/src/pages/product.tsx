@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../components/common/Navbar.component";
+import Navbar from "../components/navbars/Navbar.component";
 import styled from "styled-components";
 import ButtonComponent from "../components/common/button.component";
 import { CircularProgress } from "@mui/material";
@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from "../redux/stores/hooks";
 import { IData } from "../type";
 import { Link, useParams } from "react-router-dom";
 import { URL } from "../const/constant";
+
 const Productrender = () => {
   const { data, loading } = useFetch({ api: "/seeding/data.json" });
   const dispatch = useAppDispatch();
@@ -54,7 +55,7 @@ const Productrender = () => {
 
     return (
       <HeadPhoneContainer>
-        <Navbar style={{ backgroundColor: "black" }} />
+        <Navbar style={{ backgroundColor: "black" }}  />
         <WidthStyle>
           <div className="category-container">
             <div key={id}>
@@ -64,7 +65,7 @@ const Productrender = () => {
                     window.innerWidth > 820
                       ? image.desktop
                       : window.innerWidth > 480
-                      ? URL + image.tablet
+                      ?  image.tablet
                       : image.mobile
                   }
                   alt="category"
@@ -209,6 +210,9 @@ const Productrender = () => {
 export default Productrender;
 const HeadPhoneContainer = styled.div`
   margin-top: 16rem;
+  @media screen and (max-width:820px){
+    margin-top: 2rem;
+  }
   h1 {
     text-align: center;
     font-size: 2rem;

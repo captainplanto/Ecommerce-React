@@ -1,5 +1,5 @@
-import React, { FC, useState } from "react";
-import Navbar from "../components/common/Navbar.component";
+import React, { FC, useEffect, useState } from "react";
+import Navbar from "../components/navbars/Navbar.component";
 import FooterComponent from "../components/common/Footer.component";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -22,19 +22,18 @@ import { ICartAndCheckout } from "../type";
 import ThankYouPage from "./thankyou";
 import CounterComponent from "../components/common/Counter.component";
 
-const CheckOut: FC<ICartAndCheckout> = ({
-  totalPrice,
-  totalShipping,
-  totalVAT,
-  grandTotal,
-  cartCount,
-}) => {
+
+const CheckOut: FC<ICartAndCheckout> = ({ grandTotal }) => {
   const value = useAppSelector((state) => state.form);
   const dispatch = useAppDispatch();
   const cartQty = useAppSelector((state) => state.cart);
   const [validate, setValidate] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const { shipping, totalAmount, tax } = useAppSelector((state) => state.cart);
+
+
+ 
 
   const validateInfo = () => {
     if (
@@ -55,7 +54,7 @@ const CheckOut: FC<ICartAndCheckout> = ({
   return (
     <OuterContainer>
       <Navbar style={{ background: "black" }} />
-      <Link to={"/cart"}>
+      <Link to={"/"}>
         <h1 className="go-back">Go Back</h1>
       </Link>
       <CheckoutContainer>
@@ -157,8 +156,30 @@ const CheckOut: FC<ICartAndCheckout> = ({
                 />
               </>
             ))}
+            <div className="checkout-pricing-details">
+              <div style={pricingCheckout}>
+                <p>TOTAL </p>
+                <span>€ {Math.round(totalAmount)} </span>
+              </div>
 
-          
+              <div style={pricingCheckout}>
+                <p>SHIPPING </p>
+                <span>€ {Math.round(shipping)}</span>
+              </div>
+
+              <div style={pricingCheckout}>
+                <p>VAT(INCLUDED) </p>
+                <span>€ {Math.round(tax)}</span>
+              </div>
+
+              <div style={pricingCheckout}>
+                <p>GRAND TOTAL </p>
+                <span className="grand-total">
+                  €{Math.round(totalAmount + shipping + tax)}
+                </span>
+              </div>
+            </div>
+
             {!validate ? (
               <ButtonComponent
                 onClick={() => {
@@ -187,16 +208,16 @@ const CheckOut: FC<ICartAndCheckout> = ({
                 CONTINUE AND PAY
               </ButtonComponent>
             )}
-            {openModal && (
-              <ThankYouPage
-                grandTotal={grandTotal}
-                openModal={openModal}
-                setOpenModal={setOpenModal}
-              />
-            )}
           </div>
         </div>
       </CheckoutContainer>
+      {openModal && (
+        <ThankYouPage
+          grandTotal={grandTotal}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+        />
+      )}
       <FooterComponent />
     </OuterContainer>
   );
@@ -337,6 +358,21 @@ const CheckoutContainer = styled.div`
       margin-bottom: 3rem;
     }
   }
+  .checkout-pricing-details {
+    margin-top: 4rem;
+
+    p,
+    span {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    span {
+      font-weight: 800;
+    }
+    .grand-total {
+      color: var(--primary-Orange);
+    }
+  }
 `;
 const CountryDropdowns = styled(CountryDropdown)`
   outline: none;
@@ -361,47 +397,9 @@ const RegionDropdowns = styled(RegionDropdown)`
   padding: 1.5rem 2rem 1.5rem 1.5rem;
   margin-bottom: 2rem;
 `;
-
-/*
-
-
-
-
- <summary key={id}>
-                <div className="image-name-price">
-                  <div className="Image-cartqty">
-                    <img src={URL + image.desktop} alt="product-jpg" />
-                    <div>
-                      <h1>{name}</h1>
-                      <h2>{price}</h2>
-                    </div>
-                  </div>
-                  <h2>x{cartQty.count}</h2>
-                </div>
-              </summary>
-            ))}
-
-            <div className="checkout-pricing-details">
-              <div style={pricingCheckout}>
-                <p>TOTAL </p>
-                <span>€ {totalPrice} </span>
-              </div>
-
-              <div style={pricingCheckout}>
-                <p>SHIPPING </p>
-                <span>€ {totalShipping}</span>
-              </div>
-
-              <div style={pricingCheckout}>
-                <p>VAT(INCLUDED) </p>
-                <span>€ {totalVAT}</span>
-              </div>
-
-              <div style={pricingCheckout}>
-                <p>GRAND TOTAL </p>
-                <span className="grand-total">€{grandTotal}</span>
-              </div>
-            </div>
-
-
-*/
+const pricingCheckout = {
+  display: "flex",
+  margin: "0 auto",
+  justifyContent: "space-between",
+  alignItems: "center",
+};

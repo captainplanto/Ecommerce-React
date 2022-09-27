@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./Navbar.component";
+import Navbar from "../navbars/Navbar.component";
 import Banner from "./Banner.component";
 
 const HeaderComponent = () => {
@@ -24,7 +24,7 @@ const HeaderComponent = () => {
   return (
     <div role="banner">
       <Banner />
-      <Navbar style={{ background: headerColor }} />
+      <Navbar style={{ background: headerColor }}  />
     </div>
   );
 };

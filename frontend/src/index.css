@@ -8,9 +8,11 @@ body {
   font-size: 14px;
 }
 li {
-  color: var(--primary-hover-black);
+  
+  list-style: none;
 }
-ul, a {
+ul,
+a {
   list-style: none;
   text-decoration: none;
   color: var(--white-text-color);
