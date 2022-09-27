@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
-import DrawerComponent from "../common/Drawer.component";
 import { Link } from "react-router-dom";
 import { FC, ReactChild, ReactNode } from "react";
 import CartBadgeComponent from "../common/CartBadge.component";
