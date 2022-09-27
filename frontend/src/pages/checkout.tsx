@@ -70,7 +70,7 @@ const CheckOut: FC<ICartAndCheckout> = ({ grandTotal }) => {
                   value={value.name}
                   onChange={(e) => dispatch(CHANGE_NAME(e))}
                   style={{ width: "100%" }}
-                  placeholder="Ikulayo Charles"
+                  placeholder="John Doe"
                 />
               </div>
               <div className="email-field">
@@ -80,7 +80,7 @@ const CheckOut: FC<ICartAndCheckout> = ({ grandTotal }) => {
                   value={value.email}
                   onChange={(e) => dispatch(CHANGE_EMAIL(e))}
                   style={{ width: "100%" }}
-                  placeholder="charles@gmail.com"
+                  placeholder="johndoe@gmail.com"
                 />
               </div>
               <div className="phone-field">
@@ -90,7 +90,7 @@ const CheckOut: FC<ICartAndCheckout> = ({ grandTotal }) => {
                   value={value.number}
                   onChange={(e) => dispatch(CHANGE_NUMBER(e))}
                   style={{ width: "100%" }}
-                  placeholder="+491506784634"
+                  placeholder="+4915067856565"
                 />
               </div>
               <h1>{error}</h1>
